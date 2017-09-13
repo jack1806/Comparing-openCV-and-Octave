@@ -1,0 +1,34 @@
+pkg load image
+function output = blend(a,b,alpha)
+	output = alpha*a + (1.00-alpha)*b;
+endfunction
+im = imread('1.jpg');
+imgreen = im(:,:,:);
+figure(2)
+imshow(im(:,:,1),[127 128]);
+noise = randn(size(imgreen)).*64;
+imgreen += noise;
+s = size(imgreen)
+height = int32(s(1))
+width = int32(s(2))
+imcrop = imgreen(height./4:3*height./4,width./4:3*width./4,:);
+imwrite(imcrop,'3.png');
+imwrite(imgreen,'2.png');
+#z = input('Enter alpha value : ')
+#imshow(blend(imgreen,im,z))
+imgray = medfilt2(rgb2gray(im));
+im2 = imnoise(imgray,'salt & pepper',0.2);
+figure(1)
+imshow(imgray)
+#figure(2)
+#imshow(im2);
+im3 = medfilt2(im2);
+#figure(3)
+#imshow(im3);
+#figure, imshow(),title('Fspecial');
+figure(4)
+imedge = edge(imgray,'Sobel');
+imshow(imedge);
+#figure(5)
+#imshow(ifft(imedge));
+#imshow(imfilter(im,filt))
